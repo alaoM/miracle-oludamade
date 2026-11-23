@@ -7,6 +7,7 @@ import {
   getImageByName,
   type GeneratedImage,
 } from "@/lib/images";
+import { getBuildSiteUrl } from "@/lib/site-url";
 import { OpeningHello } from "@/components/OpeningHello";
 import { StickyNav } from "@/components/StickyNav";
 import { HeroSection } from "@/components/HeroSection";
@@ -30,9 +31,7 @@ export default async function HomePage() {
   const curatedGallery = getGalleryImages();
 
   // Public QR pointing ONLY to plain /share (never includes UPLOAD_CODE)
-  const siteUrl = (
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-  ).replace(/\/+$/, "");
+  const siteUrl = getBuildSiteUrl();
   const publicShareQrDataUrl = await QRCode.toDataURL(`${siteUrl}/share`, {
     errorCorrectionLevel: "M",
     margin: 2,

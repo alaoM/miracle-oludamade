@@ -283,7 +283,7 @@ export const SITE = {
         {
           speaker: "Oludamade",
           initial: "O",
-          text: "“Miracle planned everything with my sisters, and I had no idea! I was told I was going for an office dinner. Dade even made my dress, and Aunty Bola helped me get ready. Everybody knew except me. It was such a beautiful surprise, and I gave him the easiest YES!”",
+          text: "“Miracle planned everything with my sisters, and I had no idea! I was told I was going for an office dinner. Dade even made my dress, and Aunty Bola & Rachael helped me get ready. Everybody knew except me. It was such a beautiful surprise, and I gave him the easiest YES!”",
         },
         {
           speaker: "Miracle",

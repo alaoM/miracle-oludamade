@@ -7,6 +7,7 @@ import {
 import { checkRateLimit, getClientIp } from "@/lib/ratelimit";
 import { getUploadWindow } from "@/lib/upload-window";
 import { createResumableUploadSession, isDriveConfigured } from "@/lib/drive";
+import { getBuildSiteUrl } from "@/lib/site-url";
 
 export const runtime = "nodejs";
 
@@ -28,9 +29,7 @@ function timingSafeMatch(a: string, b: string): boolean {
 
 export async function POST(request: Request) {
   // Strict same-origin check when Origin header is present
-  const siteUrl = (
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-  ).replace(/\/+$/, "");
+  const siteUrl = getBuildSiteUrl();
   const requestOrigin = request.headers.get("origin");
   if (requestOrigin) {
     try {
@@ -133,7 +132,7 @@ export async function POST(request: Request) {
     index,
   });
 
-  // Use the browser's actual origin if it passed our same-origin check, else NEXT_PUBLIC_SITE_URL
+  // Use the browser's actual origin if it passed our same-origin check, else NEXT_SITE_URL
   const driveOrigin = requestOrigin || siteUrl;
 
   try {

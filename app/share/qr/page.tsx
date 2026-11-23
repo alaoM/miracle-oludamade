@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import QRCode from "qrcode";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { getRequestSiteUrl } from "@/lib/site-url";
 import { SITE } from "@/content/site";
 import { AdminLoginForm } from "@/components/AdminLoginForm";
 import { BotanicalDivider, Monogram } from "@/components/Monogram";
@@ -20,9 +22,8 @@ export default async function ShareQrPage() {
     return <AdminLoginForm title="Printable QR table card" />;
   }
 
-  const siteUrl = (
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-  ).replace(/\/+$/, "");
+  const headersList = await headers();
+  const siteUrl = getRequestSiteUrl(headersList);
   const uploadCode = process.env.UPLOAD_CODE || "";
   const shareUrl = uploadCode
     ? `${siteUrl}/share?c=${encodeURIComponent(uploadCode)}`

@@ -114,7 +114,7 @@ npm run setup:drive
 
 1. Push this repository to GitHub/GitLab/Bitbucket and import it in [Vercel](https://vercel.com/).
 2. Add every variable from `.env.example` in **Project Settings → Environment Variables**:
-   - `NEXT_PUBLIC_SITE_URL` (e.g. `https://admeverafter.com` — **no trailing slash**; required for Google Drive CORS!)
+   - `NEXT_SITE_URL` (e.g. `https://admeverafter.com` — **no trailing slash**; required for Google Drive CORS!)
    - `RSVP_SHEET_WEBHOOK_URL`
    - `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`, `DRIVE_FOLDER_ID`
    - `UPLOAD_CODE` (long random secret embedded in `/share/qr`)

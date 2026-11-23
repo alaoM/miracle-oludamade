@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Great_Vibes, Jost } from "next/font/google";
 import { SITE } from "@/content/site";
+import { getBuildSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -24,8 +25,7 @@ const jost = Jost({
   display: "swap",
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteUrl = getBuildSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
