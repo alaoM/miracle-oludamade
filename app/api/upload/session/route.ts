@@ -144,7 +144,11 @@ export async function POST(request: Request) {
     });
 
     return noStoreJson({ sessionUri, fileName }, 200);
-  } catch {
+  } catch (err) {
+    console.error(
+      "[upload/session]",
+      err instanceof Error ? err.message : "Drive session error"
+    );
     return noStoreJson(
       {
         error:

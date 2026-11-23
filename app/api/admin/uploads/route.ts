@@ -55,9 +55,15 @@ export async function GET() {
       },
       { status: 200, headers: { "Cache-Control": "no-store" } }
     );
-  } catch {
+  } catch (err) {
+    const detail =
+      err instanceof Error ? err.message : "Unknown Google Drive error";
+    console.error("[admin/uploads]", detail);
     return NextResponse.json(
-      { error: "Unable to load Google Drive uploads right now." },
+      {
+        error: "Unable to load Google Drive uploads right now.",
+        detail,
+      },
       { status: 502, headers: { "Cache-Control": "no-store" } }
     );
   }

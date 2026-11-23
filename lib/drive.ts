@@ -13,12 +13,18 @@ interface CachedToken {
 
 let cachedToken: CachedToken | null = null;
 
+function cleanEnv(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  const trimmed = value.trim().replace(/^["']|["']$/g, "").trim();
+  return trimmed || undefined;
+}
+
 export function isDriveConfigured(): boolean {
   return Boolean(
-    process.env.GOOGLE_CLIENT_ID &&
-      process.env.GOOGLE_CLIENT_SECRET &&
-      process.env.GOOGLE_REFRESH_TOKEN &&
-      process.env.DRIVE_FOLDER_ID
+    cleanEnv(process.env.GOOGLE_CLIENT_ID) &&
+      cleanEnv(process.env.GOOGLE_CLIENT_SECRET) &&
+      cleanEnv(process.env.GOOGLE_REFRESH_TOKEN) &&
+      cleanEnv(process.env.DRIVE_FOLDER_ID)
   );
 }
 
@@ -28,9 +34,9 @@ export async function getDriveAccessToken(): Promise<string> {
     return cachedToken.accessToken;
   }
 
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
+  const clientId = cleanEnv(process.env.GOOGLE_CLIENT_ID);
+  const clientSecret = cleanEnv(process.env.GOOGLE_CLIENT_SECRET);
+  const refreshToken = cleanEnv(process.env.GOOGLE_REFRESH_TOKEN);
 
   if (!clientId || !clientSecret || !refreshToken) {
     throw new Error("Google Drive OAuth environment variables are not configured.");
@@ -39,14 +45,23 @@ export async function getDriveAccessToken(): Promise<string> {
   const oauth2Client = new OAuth2Client(clientId, clientSecret);
   oauth2Client.setCredentials({ refresh_token: refreshToken });
 
-  const { token, res } = await oauth2Client.getAccessToken();
-  if (!token) {
-    throw new Error("Unable to refresh Google Drive access token.");
+  let token: string | null | undefined;
+  let expiryMs = now + 50 * 60 * 1000;
+  try {
+    const result = await oauth2Client.getAccessToken();
+    token = result.token;
+    const rawExpiry = (result.res?.data as { expiry_date?: number } | undefined)
+      ?.expiry_date;
+    if (rawExpiry) expiryMs = rawExpiry;
+  } catch (err) {
+    const msg =
+      err instanceof Error ? err.message : "OAuth token refresh failed";
+    throw new Error(`Google OAuth refresh failed: ${msg}`);
   }
 
-  const expiryMs =
-    (res?.data as { expiry_date?: number } | undefined)?.expiry_date ??
-    now + 50 * 60 * 1000;
+  if (!token) {
+    throw new Error("Google OAuth returned an empty access token.");
+  }
 
   cachedToken = {
     accessToken: token,
@@ -62,7 +77,7 @@ export async function createResumableUploadSession(params: {
   size: number;
   origin: string;
 }): Promise<string> {
-  const folderId = process.env.DRIVE_FOLDER_ID;
+  const folderId = cleanEnv(process.env.DRIVE_FOLDER_ID);
   if (!folderId) {
     throw new Error("DRIVE_FOLDER_ID is not configured.");
   }
@@ -103,7 +118,7 @@ export async function listUploadedFiles(): Promise<{
   files: DriveUploadedFile[];
   totalSizeBytes: number;
 }> {
-  const folderId = process.env.DRIVE_FOLDER_ID;
+  const folderId = cleanEnv(process.env.DRIVE_FOLDER_ID);
   if (!folderId || !isDriveConfigured()) {
     return { files: [], totalSizeBytes: 0 };
   }

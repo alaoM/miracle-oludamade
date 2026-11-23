@@ -45,11 +45,25 @@ export function AdminUploadsClient() {
     setError(null);
     try {
       const res = await fetch("/api/admin/uploads", { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to load uploads.");
+      if (!res.ok) {
+        const errBody = (await res.json().catch(() => ({}))) as {
+          error?: string;
+          detail?: string;
+        };
+        throw new Error(
+          errBody.detail
+            ? `${errBody.error ?? "Could not load Google Drive uploads."} (${errBody.detail})`
+            : errBody.error || "Could not load Google Drive uploads."
+        );
+      }
       const json = (await res.json()) as AdminData;
       setData(json);
-    } catch {
-      setError("Could not load Google Drive uploads.");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Could not load Google Drive uploads."
+      );
     } finally {
       setLoading(false);
     }
