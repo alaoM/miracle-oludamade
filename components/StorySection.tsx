@@ -112,7 +112,7 @@ export function StorySection({
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-onion-soft to-sage-soft p-6 text-center text-sm text-ink-muted">
-                        Photo coming soon (TODO: add to /public/images)
+                        Photo coming soon
                       </div>
                     )}
                   </div>

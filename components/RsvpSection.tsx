@@ -9,7 +9,12 @@ import { downloadIcsFile } from "@/lib/calendar";
 import { BotanicalDivider, DriftingPetals } from "./Monogram";
 import { MagneticButton } from "./MagneticButton";
 
-const EVENT_OPTIONS = ["Engagement", "Church Wedding", "Reception"] as const;
+const EVENT_OPTIONS = [
+  "Bible Presentation",
+  "Engagement",
+  "Church Wedding",
+  "Reception",
+] as const;
 
 export function RsvpSection() {
   const prefersReducedMotion = useReducedMotion();
@@ -159,7 +164,7 @@ export function RsvpSection() {
                     type="button"
                     onClick={() =>
                       downloadIcsFile(
-                        SITE.events,
+                        [SITE.preWeddingEvent, ...SITE.events],
                         "oludamade-and-miracle-wedding.ics"
                       )
                     }
@@ -293,7 +298,7 @@ export function RsvpSection() {
                     <legend className="text-sm font-medium text-ink">
                       Events you’ll attend
                     </legend>
-                    <div className="mt-2 grid gap-2.5 sm:grid-cols-3">
+                    <div className="mt-2 grid gap-2.5 sm:grid-cols-2">
                       {EVENT_OPTIONS.map((ev) => {
                         const checked = events.includes(ev);
                         return (

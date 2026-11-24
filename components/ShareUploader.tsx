@@ -68,7 +68,6 @@ function formatCountdown(targetIso: string): string {
 
 export function ShareUploader() {
   const [uploadCode, setUploadCode] = useState<string>("");
-  const [codeChecked, setCodeChecked] = useState(false);
   const [windowStatus, setWindowStatus] = useState<StatusResponse | null>(null);
   const [serviceUnavailable, setServiceUnavailable] = useState(false);
   const [guestName, setGuestName] = useState("");
@@ -111,7 +110,6 @@ export function ShareUploader() {
 
     const rememberedName = safeGet(window.localStorage, NAME_STORAGE_KEY);
     if (rememberedName) setGuestName(rememberedName);
-    setCodeChecked(true);
 
     fetch("/api/upload/status")
       .then((r) => {
@@ -343,10 +341,11 @@ export function ShareUploader() {
     items.every((i) => i.status === "done") &&
     !isUploading;
 
-  const whatsappContact = SITE.contacts[0];
-  const whatsappFallbackUrl = `https://wa.me/${whatsappContact.whatsappNumber}?text=${encodeURIComponent(
-    `Hello ${whatsappContact.name}! I’d love to share my photos from Oludamade & Miracle’s wedding (${SITE.couple.hashtag}).`
-  )}`;
+  const photoContacts = SITE.photoBackupContacts;
+  const buildPhotoWhatsAppUrl = (name: string, number: string) =>
+    `https://wa.me/${number}?text=${encodeURIComponent(
+      `Hello ${name}! I’d love to share my photos from Oludamade & Miracle’s wedding (${SITE.couple.hashtag}).`
+    )}`;
 
   return (
     <main className="relative min-h-screen paper-grain px-4 py-8 sm:px-6 sm:py-12">
@@ -379,18 +378,25 @@ export function ShareUploader() {
               </h2>
               <p className="mt-2 text-base text-ink-muted">
                 We couldn’t reach our upload service. Please try again in a
-                moment, or send your photos to {whatsappContact.name} on
-                WhatsApp.
+                moment, or send your photos to Oludamade or Miracle on WhatsApp.
               </p>
-              <a
-                href={whatsappFallbackUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-magenta px-6 py-3 text-base font-medium text-white shadow-soft transition hover:bg-magenta-dark"
-              >
-                <MessageCircle className="h-5 w-5" />
-                <span>Send to {whatsappContact.name} on WhatsApp</span>
-              </a>
+              <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:justify-center">
+                {photoContacts.map((person) => (
+                  <a
+                    key={person.name}
+                    href={buildPhotoWhatsAppUrl(
+                      person.name,
+                      person.whatsappNumber
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-magenta px-5 py-3 text-sm font-medium text-white shadow-soft transition hover:bg-magenta-dark"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    <span>WhatsApp {person.name}</span>
+                  </a>
+                ))}
+              </div>
             </div>
           ) : windowStatus && windowStatus.state === "before" ? (
             <div className="py-6 text-center">
@@ -401,9 +407,9 @@ export function ShareUploader() {
                 Coming soon. See you on the day!
               </h2>
               <p className="mt-2 text-base text-ink-muted">
-                Photo uploads open on wedding morning (5 December 2026, 6:00 AM
-                WAT). Simply scan the QR code on your table card to add your
-                photos.
+                Photo uploads open on Sunday, 29 November 2026 (2:00 PM WAT) for
+                our Bible Presentation and stay open all the way through our
+                wedding day!
               </p>
               <Link
                 href="/"
@@ -434,37 +440,24 @@ export function ShareUploader() {
                     <span>Open fallback photo album</span>
                   </a>
                 )}
-                <a
-                  href={whatsappFallbackUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-ink/15 bg-ivory px-5 py-2.5 text-sm font-medium text-ink"
-                >
-                  <MessageCircle className="h-4 w-4 text-sage" />
-                  <span>Message {whatsappContact.name} on WhatsApp</span>
-                </a>
+                <div className="grid gap-2.5 sm:grid-cols-2">
+                  {photoContacts.map((person) => (
+                    <a
+                      key={person.name}
+                      href={buildPhotoWhatsAppUrl(
+                        person.name,
+                        person.whatsappNumber
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-ink/15 bg-ivory px-4 py-2.5 text-sm font-medium text-ink transition hover:border-magenta hover:text-magenta"
+                    >
+                      <MessageCircle className="h-4 w-4 text-sage" />
+                      <span>WhatsApp {person.name}</span>
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
-          ) : codeChecked && !uploadCode ? (
-            <div className="py-6 text-center">
-              <Camera className="mx-auto h-10 w-10 text-magenta" />
-              <h2 className="mt-3 font-display text-2xl font-medium text-ink">
-                Scan the QR code on your table card
-              </h2>
-              <p className="mt-2 text-base text-ink-muted">
-                To keep our album private, uploads open automatically when you
-                scan the QR code on the wedding table cards — no login and no
-                typing needed.
-              </p>
-              <a
-                href={whatsappFallbackUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-sage/60 bg-ivory px-5 py-2.5 text-sm font-medium text-ink transition hover:border-magenta hover:text-magenta"
-              >
-                <MessageCircle className="h-4 w-4 text-sage" />
-                <span>Need help? WhatsApp {whatsappContact.name}</span>
-              </a>
             </div>
           ) : (
             <>

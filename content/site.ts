@@ -4,6 +4,7 @@ import type {
   FaqItem,
   GalleryCategory,
   HotelRecommendation,
+  LivestreamInfo,
   StoryChapter,
   VoiceStatement,
   WeddingEvent,
@@ -16,6 +17,7 @@ export type {
   FaqItem,
   GalleryCategory,
   HotelRecommendation,
+  LivestreamInfo,
   StoryChapter,
   VoiceStatement,
   WeddingEvent,
@@ -142,8 +144,8 @@ export const SITE = {
   robotsNoIndex: true,
 
   /** TODO: confirm final RSVP deadline date (ISO with WAT offset). */
-  rsvpDeadlineIsoWat: "2026-11-25T23:59:59+01:00",
-  rsvpDeadlineDisplay: "25 November 2026 (TODO: confirm deadline)",
+  rsvpDeadlineIsoWat: "2026-11-29T23:59:59+01:00",
+  rsvpDeadlineDisplay: "29 November 2026",
 
   coloursOfTheDay: [
     { name: "Magenta", hex: "#A3195B" },
@@ -152,6 +154,20 @@ export const SITE = {
     { name: "White", hex: "#FFFFFF" },
   ],
   dressCodeLine: "There’s no strict dress code. Just come in our colours.",
+
+  livestream: {
+    enabled: true,
+    heading: "Join us online",
+    platform: "Zoom",
+    scheduleNote: "Saturday, 5 December 2026 · WAT",
+    description:
+      "Can’t make it to Ilorin in person? Celebrate with us from anywhere in the world via Zoom. We’d love to feel your presence and prayers online.",
+    /** TODO: paste your Zoom join link here when ready */
+    joinUrl: "",
+    meetingId: "",
+    passcode: "",
+    comingSoonLabel: "Zoom link coming soon",
+  } as LivestreamInfo,
 
   navLinks: [
     { label: "Our story", href: "#story" },
@@ -308,6 +324,23 @@ export const SITE = {
     },
   ] as StoryChapter[],
 
+  preWeddingEvent: {
+    id: "bible-presentation",
+    name: "Bible Presentation",
+    dateDisplay: "Sunday, 29 November 2026",
+    shortTime: "4:00 PM",
+    timeDisplay: "4:00 PM (WAT)",
+    startIsoWat: "2026-11-29T16:00:00+01:00",
+    endIsoWat: "2026-11-29T18:00:00+01:00",
+    venue: "Believers Heritage Baptist Church",
+    address: "Believers Heritage Baptist Church, Ilorin, Kwara State, Nigeria",
+    mapsQuery: "Believers Heritage Baptist Church, Ilorin, Kwara State, Nigeria",
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Believers+Heritage+Baptist+Church+Ilorin+Kwara+State+Nigeria",
+    description:
+      "Join us the Sunday before the wedding for our Bible Presentation service. If you snap any moments, feel free to upload them on our photo sharing page right after!",
+  } as WeddingEvent,
+
   events: [
     {
       id: "engagement",
@@ -358,10 +391,18 @@ export const SITE = {
 
   venueDirections: [
     {
+      venue: "Believers Heritage Baptist Church (Bible Presentation)",
+      address: "Ilorin, Kwara State — Sunday, 29 November 2026, 4:00 PM",
+      directions:
+        "Head to Believers Heritage Baptist Church in Ilorin for our 4:00 PM Bible Presentation service on Sunday, 29 November 2026.",
+      mapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=Believers+Heritage+Baptist+Church+Ilorin+Kwara+State+Nigeria",
+    },
+    {
       venue: "Excellence Hall (Engagement & Reception)",
       address: "Pipeline Area, Ilorin, Kwara State",
       directions:
-        "From General Hospital (before Taiwo Road), head towards Pipeline Road / Pipeline Area to reach Excellence Hall. (TODO: confirm exact landmark wording and map pin.)",
+        "From General Hospital (before Taiwo Road), head towards Pipeline Road / Pipeline Area to reach Excellence Hall.",
       mapsUrl:
         "https://www.google.com/maps/search/?api=1&query=Excellence+Hall+Pipeline+Area+Ilorin+Kwara+State+Nigeria",
     },
@@ -369,7 +410,7 @@ export const SITE = {
       venue: "Emmanuel Baptist Church (Church Wedding)",
       address: "Sabo Oke, Ilorin, Kwara State",
       directions:
-        "From General Hospital (before Taiwo Road) or Pipeline Area, head towards Sabo Oke to Emmanuel Baptist Church. (TODO: confirm exact landmark wording and map pin.)",
+        "From General Hospital (before Taiwo Road) or Pipeline Area, head towards Sabo Oke to Emmanuel Baptist Church.",
       mapsUrl:
         "https://www.google.com/maps/search/?api=1&query=Emmanuel+Baptist+Church+Sabo+Oke+Ilorin+Kwara+State+Nigeria",
     },
@@ -381,28 +422,24 @@ export const SITE = {
       area: "Pipeline Road area, Ilorin",
       mapsUrl:
         "https://www.google.com/maps/search/?api=1&query=Suitoria+Hotel+Pipeline+Road+Ilorin",
-      contactNote: "TODO: add hotel phone number or booking link",
     },
     {
-      name: "Ager Woods Hotel",
+      name: "Aga Woods Hotel",
       area: "Pipeline Road area, Ilorin",
       mapsUrl:
         "https://www.google.com/maps/search/?api=1&query=Ager+Woods+Hotel+Pipeline+Road+Ilorin",
-      contactNote: "TODO: add hotel phone number or booking link",
     },
     {
       name: "Gpinnacle Hotel",
       area: "Pipeline Road area, Ilorin",
       mapsUrl:
         "https://www.google.com/maps/search/?api=1&query=Gpinnacle+Hotel+Pipeline+Road+Ilorin",
-      contactNote: "TODO: add hotel phone number or booking link",
     },
     {
       name: "Signature Hotel",
       area: "Pipeline Road area, Ilorin",
       mapsUrl:
         "https://www.google.com/maps/search/?api=1&query=Signature+Hotel+Pipeline+Road+Ilorin",
-      contactNote: "TODO: add hotel phone number or booking link",
     },
   ] as HotelRecommendation[],
 
@@ -452,7 +489,7 @@ export const SITE = {
       id: "when-and-where",
       question: "When and where is the wedding?",
       answer:
-        "Saturday, 5 December 2026, in Ilorin, Kwara State. Our Engagement is at 7:30 AM and our Reception at 1:30 PM, both at Excellence Hall (Pipeline Area). The Church Wedding is at 11:00 AM at Emmanuel Baptist Church (Sabo Oke).",
+        "Our Bible Presentation is on Sunday, 29 November 2026 at 4:00 PM at Believers Heritage Baptist Church, Ilorin. The wedding day proper is Saturday, 5 December 2026 in Ilorin: Engagement at 7:30 AM and Reception at 1:30 PM at Excellence Hall (Pipeline Area), with the Church Wedding at 11:00 AM at Emmanuel Baptist Church (Sabo Oke).",
     },
     {
       id: "dress-code",
@@ -482,7 +519,7 @@ export const SITE = {
       id: "where-to-stay",
       question: "Where can I stay in Ilorin?",
       answer:
-        "Suitoria Hotel, Ager Woods Hotel, Gpinnacle Hotel and Signature Hotel, all around Pipeline Road, close to the reception.",
+        "Suitoria Hotel, Aga Woods Hotel, Gpinnacle Hotel and Signature Hotel, all around Pipeline Road, close to the reception.",
     },
     {
       id: "how-to-rsvp",
@@ -494,19 +531,19 @@ export const SITE = {
       id: "guests-children",
       question: "Can I bring a guest or children?",
       answer:
-        "Please check your invitation and enter the number of guests on the RSVP form. For anything else, message us on WhatsApp. (TODO: confirm plus-one and children policy.)",
+        "Please check your invitation and enter the number of guests on the RSVP form. For anything else, message us on WhatsApp.",
     },
     {
       id: "parking-security",
       question: "Is there parking and security?",
       answer:
-        "TODO: confirm parking and security details with Excellence Hall and Emmanuel Baptist Church.",
+        "Yes — both the church and the hall have large parking spaces. However, please ensure your vehicles and personal belongings are parked and locked securely, as cars are parked at owners’ risk.",
     },
     {
       id: "taking-photos",
       question: "Can I take photos?",
       answer:
-        "Please do! We’d love to see them. Share them on this website (look for the QR code on the tables) or with #aDMeverAfter. (TODO: confirm if the church ceremony is phone-free.)",
+        "Please do! We’d love to see them. Share them on this website (look for the QR code on the tables) or with #aDMeverAfter.)",
     },
     {
       id: "share-photos",
@@ -543,17 +580,35 @@ export const SITE = {
   contacts: [
     {
       name: "Olayinka",
-      role: "Wedding Coordinator (TODO: confirm role)",
+      role: "Aburo Oko",
       phoneDisplay: "+234 810 038 0726",
       whatsappNumber: "2348100380726",
       telHref: "tel:+2348100380726",
     },
     {
       name: "Oludadepo",
-      role: "Best Lady & Family Contact",
+      role: "Best Lady & Aburo Iyawo",
       phoneDisplay: "+234 701 265 8858",
       whatsappNumber: "2347012658858",
       telHref: "tel:+2347012658858",
+    },
+  ] as ContactPerson[],
+
+  /** Backup WhatsApp contacts specifically for collecting wedding photos on /share */
+  photoBackupContacts: [
+    {
+      name: "Oludamade",
+      role: "Bride",
+      phoneDisplay: "+234 703 377 5408",
+      whatsappNumber: "2347033775408",
+      telHref: "tel:+2347033775408",
+    },
+    {
+      name: "Miracle",
+      role: "Groom",
+      phoneDisplay: "+234 814 488 9589",
+      whatsappNumber: "2348144889589",
+      telHref: "tel:+2348144889589",
     },
   ] as ContactPerson[],
 };

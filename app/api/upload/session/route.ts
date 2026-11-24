@@ -54,10 +54,12 @@ export async function POST(request: Request) {
     return noStoreJson({ error: message, state: windowInfo.state }, 403);
   }
 
-  // Validate shared upload code from header
-  const expectedCode = process.env.UPLOAD_CODE;
-  const providedCode = request.headers.get("x-upload-code") || "";
-  if (!expectedCode || !providedCode || !timingSafeMatch(providedCode, expectedCode)) {
+  // Validate shared upload code when provided (or when REQUIRE_UPLOAD_CODE=true)
+  const expectedCode = process.env.UPLOAD_CODE?.trim();
+  const requireCode = process.env.REQUIRE_UPLOAD_CODE === "true";
+  const providedCode = request.headers.get("x-upload-code")?.trim() || "";
+
+  if (requireCode && (!expectedCode || !providedCode || !timingSafeMatch(providedCode, expectedCode))) {
     return noStoreJson(
       {
         error:
@@ -67,7 +69,17 @@ export async function POST(request: Request) {
     );
   }
 
-  // Rate limit per IP and per code
+  if (providedCode && expectedCode && !timingSafeMatch(providedCode, expectedCode)) {
+    return noStoreJson(
+      {
+        error:
+          "That upload link looks invalid. Please open the share page from our website or scan a table card QR code.",
+      },
+      403
+    );
+  }
+
+  // Rate limit per IP and globally
   const ip = getClientIp(request.headers);
   const ipLimit = await checkRateLimit({
     key: `upload:ip:${ip}`,
@@ -81,13 +93,11 @@ export async function POST(request: Request) {
     );
   }
 
-  const codeHash = crypto
-    .createHash("sha256")
-    .update(providedCode)
-    .digest("hex")
-    .slice(0, 12);
+  const bucketKey = providedCode
+    ? crypto.createHash("sha256").update(providedCode).digest("hex").slice(0, 12)
+    : "public-window";
   const codeLimit = await checkRateLimit({
-    key: `upload:code:${codeHash}`,
+    key: `upload:code:${bucketKey}`,
     limit: 2000,
     windowSeconds: 600,
   });
@@ -102,7 +112,7 @@ export async function POST(request: Request) {
     return noStoreJson(
       {
         error:
-          "We couldn’t reach our upload service. Please try again in a moment, or send your photos to Olayinka on WhatsApp.",
+          "We couldn’t reach our upload service. Please try again in a moment, or send your photos to Oludamade or Miracle on WhatsApp.",
       },
       503
     );
@@ -152,7 +162,7 @@ export async function POST(request: Request) {
     return noStoreJson(
       {
         error:
-          "We couldn’t reach our upload service. Please try again in a moment, or send your photos to Olayinka on WhatsApp.",
+          "We couldn’t reach our upload service. Please try again in a moment, or send your photos to Oludamade or Miracle on WhatsApp.",
       },
       502
     );

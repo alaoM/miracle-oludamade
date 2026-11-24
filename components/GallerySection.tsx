@@ -295,8 +295,8 @@ export function GallerySection({
             needed.
           </p>
           <p className="mt-2 text-sm text-ink-muted">
-            On the wedding day, simply scan the QR code on the table cards for
-            instant one-tap uploads straight into our album.
+            Tap the button below or scan the QR code from any phone — on the
+            wedding day or afterward, straight into our private album.
           </p>
           <div className="mt-7 flex flex-col items-center gap-5">
             {publicShareQrDataUrl && (

@@ -155,15 +155,16 @@ npm run setup:drive
 ## 9. Final TODO Checklist (Placeholders to Confirm)
 
 - [ ] **RSVP deadline:** Confirm `rsvpDeadlineIsoWat` and `rsvpDeadlineDisplay` in `content/site.ts`
-- [ ] **Parking and security:** Confirm details for Excellence Hall and Emmanuel Baptist Church in `content/site.ts` (FAQ)
+- [x] **Parking and security:** Updated in `content/site.ts` (large parking space at both church and hall; cars parked at owners’ risk)
 - [ ] **Plus-one and children policy:** Confirm wording in `content/site.ts` (FAQ)
 - [ ] **Olayinka’s role:** Confirm role label in `content/site.ts` (`contacts[0].role`)
 - [ ] **Extra wedding-party members:** Add any additional groomsmen, bridesmaids, or family in `content/site.ts` (`weddingParty`)
 - [ ] **Exact map pins & landmark wording:** Confirm General Hospital landmark directions and exact Google Maps pin URLs for both venues
-- [ ] **Hotel contacts:** Add phone numbers or booking links for Suitoria, Ager Woods, Gpinnacle, and Signature Hotel
+- [ ] **Hotel contacts:** Add phone numbers or booking links for Suitoria, Again  Woods, Gpinnacle, and Signature Hotel
 - [ ] **Church photo policy:** Confirm whether Emmanuel Baptist Church ceremony is phone-free
 - [ ] **Upload window dates & size limits:** Confirm `UPLOADS_OPEN_AT`, `UPLOADS_CLOSE_AT`, and 25 MB / 200 MB limits
 - [ ] **Fallback album URL:** Optional Google Photos link for `FALLBACK_ALBUM_URL`
 - [ ] **Admin password & upload code:** Generate strong random values for `ADMIN_PASSWORD` and `UPLOAD_CODE`
 - [ ] **Drive storage capacity:** Confirm at least 15–50 GB free on the couple’s Google Drive before the wedding
+- [ ] **Zoom livestream link:** Paste the Zoom `joinUrl` (and optional `meetingId`/`passcode`) in `content/site.ts` (`livestream`)
 - [ ] **Search indexing:** Confirm whether to keep `robotsNoIndex: true` in `content/site.ts`

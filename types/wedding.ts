@@ -15,8 +15,9 @@ export interface StoryChapter {
 }
 
 export interface WeddingEvent {
-  id: "engagement" | "church" | "reception";
+  id: "bible-presentation" | "engagement" | "church" | "reception";
   name: string;
+  dateDisplay?: string;
   shortTime: string;
   timeDisplay: string;
   startIsoWat: string;
@@ -64,6 +65,19 @@ export interface ContactPerson {
   phoneDisplay: string;
   whatsappNumber: string;
   telHref: string;
+}
+
+export interface LivestreamInfo {
+  enabled: boolean;
+  heading: string;
+  platform: string;
+  scheduleNote: string;
+  description: string;
+  /** TODO: paste Zoom join URL when ready */
+  joinUrl: string;
+  meetingId?: string;
+  passcode?: string;
+  comingSoonLabel: string;
 }
 
 export type GalleryCategory = "Together" | "Her" | "Him" | "Guest";

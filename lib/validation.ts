@@ -45,8 +45,10 @@ export const rsvpSchema = z.object({
     .min(1, "Please select at least 1 guest.")
     .max(10, "Maximum 10 guests per RSVP."),
   events: z
-    .array(z.enum(["Engagement", "Church Wedding", "Reception"]))
-    .max(3),
+    .array(
+      z.enum(["Bible Presentation", "Engagement", "Church Wedding", "Reception"])
+    )
+    .max(4),
   dietaryNotes: z
     .string()
     .trim()

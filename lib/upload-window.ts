@@ -1,4 +1,4 @@
-const DEFAULT_OPEN_AT = "2026-12-05T06:00:00+01:00";
+const DEFAULT_OPEN_AT = "2026-11-29T14:00:00+01:00";
 const DEFAULT_CLOSE_AT = "2026-12-12T23:59:59+01:00";
 
 export type UploadWindowState = "before" | "open" | "closed";

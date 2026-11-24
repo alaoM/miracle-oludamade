@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CalendarPlus, Clock, Download, MapPin } from "lucide-react";
+import { CalendarPlus, Clock, Download, ExternalLink, MapPin, Video } from "lucide-react";
 import { SITE } from "@/content/site";
 import { buildGoogleCalendarUrl, downloadIcsFile } from "@/lib/calendar";
 import { BotanicalDivider } from "./Monogram";
@@ -24,6 +24,69 @@ export function TheDaySection() {
           </p>
           <BotanicalDivider />
         </div>
+
+        {/* Pre-wedding event: Bible Presentation */}
+        <article className="mx-auto mt-8 max-w-3xl rounded-panel border border-gold-hairline/45 bg-surface p-6 shadow-card sm:p-7">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-sage-soft px-3.5 py-1 text-xs font-semibold text-ink">
+              Before the wedding
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-onion-soft px-3.5 py-1 text-sm font-medium text-magenta">
+              <Clock className="h-3.5 w-3.5" />
+              <span>
+                {SITE.preWeddingEvent.dateDisplay} ·{" "}
+                {SITE.preWeddingEvent.timeDisplay}
+              </span>
+            </span>
+          </div>
+
+          <h3 className="mt-4 font-display text-3xl font-medium text-ink">
+            {SITE.preWeddingEvent.name}
+          </h3>
+
+          <p className="mt-2 flex items-start gap-2 text-base font-medium text-ink/90">
+            <MapPin className="mt-1 h-4 w-4 shrink-0 text-sage" />
+            <span>{SITE.preWeddingEvent.address}</span>
+          </p>
+
+          <p className="mt-2.5 text-sm leading-relaxed text-ink-muted">
+            {SITE.preWeddingEvent.description}
+          </p>
+
+          <div className="mt-5 flex flex-wrap gap-2.5 border-t border-ink/10 pt-4">
+            <a
+              href={SITE.preWeddingEvent.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-magenta px-5 py-2.5 text-sm font-medium text-white transition hover:bg-magenta-dark"
+            >
+              <MapPin className="h-4 w-4" />
+              <span>Open in Google Maps</span>
+            </a>
+            <a
+              href={buildGoogleCalendarUrl(SITE.preWeddingEvent)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-ink/15 bg-ivory px-4 py-2 text-xs font-medium text-ink transition hover:border-magenta hover:text-magenta"
+            >
+              <CalendarPlus className="h-3.5 w-3.5" />
+              <span>Google Cal</span>
+            </a>
+            <button
+              type="button"
+              onClick={() =>
+                downloadIcsFile(
+                  [SITE.preWeddingEvent],
+                  "oludamade-miracle-bible-presentation.ics"
+                )
+              }
+              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-ink/15 bg-ivory px-4 py-2 text-xs font-medium text-ink transition hover:border-magenta hover:text-magenta"
+            >
+              <Download className="h-3.5 w-3.5" />
+              <span>Download .ics</span>
+            </button>
+          </div>
+        </article>
 
         {/* Slim horizontal day timeline */}
         <div className="mx-auto mt-8 max-w-3xl rounded-full border border-gold-hairline/40 bg-surface px-5 py-3 shadow-sm">
@@ -112,6 +175,73 @@ export function TheDaySection() {
             </article>
           ))}
         </div>
+
+        {/* Join Us Online (Zoom Livestream) card */}
+        {SITE.livestream.enabled && (
+          <div className="mt-10 rounded-panel border border-sage/50 bg-gradient-to-br from-surface via-ivory to-sage-soft/60 p-6 shadow-card sm:p-8">
+            <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+              <div className="max-w-2xl">
+                <div className="inline-flex items-center gap-2 rounded-full bg-sage-soft px-3.5 py-1 text-xs font-semibold text-ink">
+                  <Video className="h-3.5 w-3.5 text-magenta" />
+                  <span>
+                    {SITE.livestream.platform} · {SITE.livestream.scheduleNote}
+                  </span>
+                </div>
+                <h3 className="mt-3 font-display text-3xl font-medium text-ink">
+                  {SITE.livestream.heading}
+                </h3>
+                <p className="mt-2 text-base leading-relaxed text-ink-muted">
+                  {SITE.livestream.description}
+                </p>
+                {(SITE.livestream.meetingId || SITE.livestream.passcode) && (
+                  <div className="mt-3 flex flex-wrap gap-3 text-sm text-ink">
+                    {SITE.livestream.meetingId && (
+                      <span className="rounded-lg border border-ink/10 bg-surface px-3 py-1">
+                        Meeting ID:{" "}
+                        <strong className="font-mono">
+                          {SITE.livestream.meetingId}
+                        </strong>
+                      </span>
+                    )}
+                    {SITE.livestream.passcode && (
+                      <span className="rounded-lg border border-ink/10 bg-surface px-3 py-1">
+                        Passcode:{" "}
+                        <strong className="font-mono">
+                          {SITE.livestream.passcode}
+                        </strong>
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="w-full shrink-0 md:w-auto">
+                {SITE.livestream.joinUrl ? (
+                  <a
+                    href={SITE.livestream.joinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-magenta px-7 py-3 text-base font-medium text-white shadow-soft transition hover:bg-magenta-dark md:w-auto"
+                  >
+                    <Video className="h-4 w-4" />
+                    <span>Join on Zoom</span>
+                    <ExternalLink className="h-4 w-4 opacity-85" />
+                  </a>
+                ) : (
+                  <div className="flex flex-col items-start md:items-end">
+                    <span className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-magenta/30 bg-onion-soft/75 px-6 py-2.5 text-sm font-medium text-magenta">
+                      <Video className="h-4 w-4" />
+                      <span>{SITE.livestream.comingSoonLabel}</span>
+                    </span>
+                    <p className="mt-2 text-xs text-ink-muted">
+                      Check back closer to the wedding day for the link.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Colours of the Day strip */}
         <div className="mt-12 rounded-panel border border-gold-hairline/40 bg-surface p-6 sm:p-8 text-center shadow-soft">

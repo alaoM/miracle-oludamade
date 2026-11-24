@@ -30,7 +30,7 @@ export function StayAndPartySection({
           </div>
 
           {/* Directions cards */}
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
             {SITE.venueDirections.map((v) => (
               <div
                 key={v.venue}
