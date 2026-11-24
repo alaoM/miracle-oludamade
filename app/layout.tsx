@@ -40,11 +40,20 @@ export const metadata: Metadata = {
     siteName: `${SITE.couple.displayNames} ${SITE.couple.hashtag}`,
     title: `${SITE.couple.displayNames} — ${SITE.couple.dateShort}`,
     description: `${SITE.couple.tagline} Celebrate with us in ${SITE.couple.locationShort}. ${SITE.couple.hashtag}`,
+    images: [
+      {
+        url: "/og-image.jpg?v=2",
+        width: 1200,
+        height: 630,
+        alt: `${SITE.couple.displayNames} — ${SITE.couple.dateDisplay}`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE.couple.displayNames} — ${SITE.couple.dateShort}`,
     description: `${SITE.couple.tagline} ${SITE.couple.hashtag}`,
+    images: ["/og-image.jpg?v=2"],
   },
 };
 

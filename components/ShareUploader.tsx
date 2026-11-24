@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
+  ArrowLeft,
   Camera,
   CheckCircle2,
   ExternalLink,
@@ -11,6 +12,7 @@ import {
   RefreshCw,
   UploadCloud,
   Video,
+  X,
 } from "lucide-react";
 import { SITE } from "@/content/site";
 import { DriftingPetals, Monogram } from "./Monogram";
@@ -352,6 +354,45 @@ export function ShareUploader() {
       {allDone && <DriftingPetals count={8} palette="sage-magenta" />}
 
       <div className="relative z-10 mx-auto max-w-lg">
+        {/* Top bar with clear Back / Cancel control */}
+        <div className="mb-4 flex items-center justify-between">
+          <Link
+            href="/"
+            onClick={(e) => {
+              if (
+                isUploading &&
+                !window.confirm(
+                  "Some uploads are still finishing. Leave this page anyway?"
+                )
+              ) {
+                e.preventDefault();
+              }
+            }}
+            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-ink/15 bg-surface/90 px-4 py-2 text-sm font-medium text-ink shadow-sm backdrop-blur transition hover:border-magenta hover:text-magenta"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to website</span>
+          </Link>
+
+          <Link
+            href="/"
+            aria-label="Close and return to wedding website"
+            onClick={(e) => {
+              if (
+                isUploading &&
+                !window.confirm(
+                  "Some uploads are still finishing. Leave this page anyway?"
+                )
+              ) {
+                e.preventDefault();
+              }
+            }}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-surface/90 text-ink shadow-sm backdrop-blur transition hover:border-magenta hover:text-magenta"
+          >
+            <X className="h-5 w-5" />
+          </Link>
+        </div>
+
         {/* Compact brand header */}
         <div className="text-center">
           <Link href="/" className="inline-block">
@@ -683,10 +724,18 @@ export function ShareUploader() {
           )}
         </div>
 
-        <p className="mt-5 text-center text-xs text-ink-muted">
-          No login needed · Photos are saved privately for{" "}
-          {SITE.couple.displayNames}
-        </p>
+        <div className="mt-5 flex flex-col items-center gap-2 text-center">
+          <p className="text-xs text-ink-muted">
+            No login needed · Photos are saved privately for{" "}
+            {SITE.couple.displayNames}
+          </p>
+          <Link
+            href="/"
+            className="text-sm font-medium text-magenta underline-offset-4 hover:underline"
+          >
+            Return to our wedding website
+          </Link>
+        </div>
       </div>
     </main>
   );
